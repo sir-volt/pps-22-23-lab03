@@ -14,7 +14,7 @@ object Lists extends App :
       case _ => 0
 
     def map[A, B](l: List[A])(mapper: A => B): List[B] = l match
-      case Cons(h, t) => Cons(mapper(h), map(t)(mapper))
+      case Cons(_, _) => flatMap(l)(h => Cons(mapper(h), Nil()))
       case Nil() => Nil()
 
     def filter[A](l1: List[A])(pred: A => Boolean): List[A] = l1 match
