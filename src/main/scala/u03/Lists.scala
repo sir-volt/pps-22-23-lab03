@@ -21,7 +21,9 @@ object Lists extends App :
       case Nil() => Nil()
 
     def filter[A](l1: List[A])(pred: A => Boolean): List[A] = l1 match
-      case Cons(_, _) => flatMap(l1) { case h if pred(h) => Cons(h, Nil()) }
+      case Cons(_, _) => flatMap(l1)(h => h match
+        case h if(pred(h)) => Cons(h, Nil())
+        case _ => Nil())
       case _ => Nil()
 
     def drop[A](l1: List[A])(dropper: Int): List[A] = l1 match
