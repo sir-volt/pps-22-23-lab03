@@ -1,5 +1,8 @@
 package u03
 
+import u02.Optionals
+import u02.Optionals.Option.*
+
 object Lists extends App :
 
   // A generic linkedlist
@@ -18,9 +21,9 @@ object Lists extends App :
       case Nil() => Nil()
 
     def filter[A](l1: List[A])(pred: A => Boolean): List[A] = l1 match
-      case Cons(h, t) if pred(h) => Cons(h, filter(t)(pred))
-      case Cons(_, t) => filter(t)(pred)
-      case Nil() => Nil()
+      case Cons(_, _) => flatMap(l1) { case h if pred(h) => Cons(h, Nil()) }
+      case _ => Nil()
+
     def drop[A](l1: List[A])(dropper: Int): List[A] = l1 match
       case Cons(_, t) if dropper > 1 => drop(t)(dropper - 1)
       case Cons(_, t) => t
@@ -33,6 +36,11 @@ object Lists extends App :
     def flatMap[A, B](l: List[A])(f: A => List[B]): List[B] = l match
       case Cons(h, t) => append(f(h))(flatMap(t)(f))
       case Nil() => Nil()
+
+    def max(l: List[Int]): Optionals.Option[Int]  = l match
+      //case Cons(h, t) if (h > max(t)) => Some(h)
+      case Cons(_, t) => max(t)
+      case Nil() => None()
 
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
   println(List.sum(l)) // 60
