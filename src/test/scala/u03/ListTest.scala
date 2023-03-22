@@ -4,12 +4,16 @@ import org.junit.*
 import org.junit.Assert.*
 import Lists.*
 import u02.Optionals.*
+import u02.AlgebraicDataTypes.*
 
 class ListTest:
   import List.*
   import Option.{Some, None}
+  import Person.*
 
   val l: List[Int] = Cons(10, Cons(20, Cons(30, Nil())))
+  val p: List[Person] = Cons(Person.Teacher("Mario", "Geografia"), Cons(Person.Teacher("Giovanni", "Scienze"),
+    Cons(Person.Student("Francesco", 2014), Nil())))
 
   @Test def testSum() =
     assertEquals(0, sum(Nil()))
@@ -40,4 +44,18 @@ class ListTest:
   @Test def testMax() =
     assertEquals(Some(30), max(l))
     assertEquals(None(), max(Nil()))
+
+  @Test def testCourses() =
+    assertEquals(Cons("Geografia", Cons("Scienze", Nil())), courses(p))
+
+  @Test def testFoldLeft() =
+    assertEquals(60, foldLeft(l)(0)(_ + _))
+    assertEquals(-55, foldLeft(l)(5)(_ - _))
+
+  @Test def testReduce() =
+    assertEquals(0, reduce(0))
+    assertEquals(3, reduce(3))
+
+  @Test def testFoldRight() =
+    assertEquals(0, foldRight(l)(0)(_ - _))
 

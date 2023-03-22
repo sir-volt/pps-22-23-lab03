@@ -1,6 +1,10 @@
 package u02
 
+import u03.Lists.*
+
 object AlgebraicDataTypes extends App :
+
+  import List.*
 
   enum Person: // a sum type defined by enumerating various cases
     case Student(name: String, year: Int)
@@ -9,6 +13,15 @@ object AlgebraicDataTypes extends App :
   def name(p: Person): String = p match
     case Person.Student(n, _) => n
     case Person.Teacher(n, _) => n
+
+  def isStudent(p: Person): Boolean = p match
+    case Person.Student(_, _) => true
+    case _ => false
+
+  def courses(l: List[Person]): List[String] = l match
+    case Cons(h, t) => map(filter(l)(!isStudent(_)))(p => p match
+      case Person.Teacher(_, course) => course)
+    case _ => Nil()
 
   println(name(Person.Student("mario", 2015)))
 
