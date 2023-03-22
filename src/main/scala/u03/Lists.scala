@@ -40,7 +40,7 @@ object Lists extends App :
       case Nil() => Nil()
 
     def max(l: List[Int]): Optionals.Option[Int]  = l match
-      //case Cons(h, t) if (h > max(t)) => Some(h)
+      case Cons(h, t) if (h > orElse(max(t), 0)) => Some(h)
       case Cons(_, t) => max(t)
       case Nil() => None()
 

@@ -3,11 +3,11 @@ package u03
 import org.junit.*
 import org.junit.Assert.*
 import Lists.*
-import u02.Optionals
+import u02.Optionals.*
 
 class ListTest:
   import List.*
-  import Option.*
+  import Option.{Some, None}
 
   val l: List[Int] = Cons(10, Cons(20, Cons(30, Nil())))
 
@@ -39,4 +39,5 @@ class ListTest:
 
   @Test def testMax() =
     assertEquals(Some(30), max(l))
+    assertEquals(None(), max(Nil()))
 
