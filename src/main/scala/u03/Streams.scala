@@ -17,6 +17,10 @@ object Streams extends App :
       lazy val tail = tl
       Cons(() => head, () => tail)
 
+    def constant[A](value: => A): Stream[A] =
+      lazy val const = value
+      Cons(() => const, () => constant(value))
+
     def toList[A](stream: Stream[A]): List[A] = stream match
       case Cons(h, t) => List.Cons(h(), toList(t()))
       case _ => List.Nil()
@@ -32,6 +36,11 @@ object Streams extends App :
 
     def take[A](stream: Stream[A])(n: Int): Stream[A] = (stream, n) match
       case (Cons(head, tail), n) if n > 0 => cons(head(), take(tail())(n - 1))
+      case _ => Empty()
+
+    def drop[A](stream: Stream[A])(n: Int): Stream[A] = stream match
+      case Cons(_, tail) if n > 1 => drop(tail())(n - 1)
+      case Cons(_, tail) => tail()
       case _ => Empty()
 
     def iterate[A](init: => A)(next: A => A): Stream[A] =
