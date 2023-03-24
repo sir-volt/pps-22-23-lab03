@@ -21,6 +21,12 @@ object Streams extends App :
       lazy val const = value
       Cons(() => const, () => constant(value))
 
+    def fibonacci(previousNum: Int)(start: Int): Stream[Int] = (previousNum, start) match
+      case (_, 0) => cons(0, fibonacci(0)(1))
+      case (0, 1) => cons(1, fibonacci(1)(1))
+      case (n, m) => cons(n + m, fibonacci(m)(n + m))
+
+
     def toList[A](stream: Stream[A]): List[A] = stream match
       case Cons(h, t) => List.Cons(h(), toList(t()))
       case _ => List.Nil()
